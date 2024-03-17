@@ -2,6 +2,10 @@
 
 This project is a content based recommender system which calculates the similarity matrix of 4805 movies in the TMDB databases using cosine similarity. It then gives top 5 recommendations based on highest similarity scores (between -1 and 1)
 
+Project link - [https://mrs-d446795857c8.herokuapp.com/](url)
+
+If the above link doesn't work, then please follow the instructions given below from here to setup the project in your system.
+
 ### How the cosine similarity matrix was calculated:
 1) The 2 .csv files in the dataset [https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata](url) were merged
 2) All important columns were retained
