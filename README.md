@@ -30,6 +30,9 @@ If the above link doesn't work, then please follow the instructions given below 
 5) Run the app locally using "streamlit run app.py"
 6) Deploy on Heroku by following the steps in this [blog](https://towardsdatascience.com/a-quick-tutorial-on-how-to-deploy-your-streamlit-app-to-heroku-874e1250dadd)
 
+[!TIP]
+Use VPN if the movie recommender system is not working. API requests to TMDB from certain countries don't work
+
 ### Resources:
 1) [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)
 2) [API key creation](https://www.themoviedb.org/?language=en-US)
