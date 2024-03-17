@@ -1,6 +1,6 @@
 # **Movie Recommender System**
 
-This project is a content based recommender system which calculates the similarity matrix of 4805 movies in the TMDB databases using cosine similarity. It then gives top 5 recommendations based on highest similarity scores (between -1 and 1)
+This project is a content based recommender system which calculates the similarity matrix of 4805 movies in the TMDB database using cosine similarity. It then gives top 5 recommendations based on highest similarity scores (between -1 and 1)
 
 Project link - [Heroku project](https://mrs-d446795857c8.herokuapp.com/)
 
