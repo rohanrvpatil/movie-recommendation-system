@@ -4,6 +4,8 @@ import pandas as pd
 import streamlit as st
 import requests
 
+import gdown
+
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=5f1896dc15cb5039314227a544a51562&language=en-US".format(movie_id)
     data = requests.get(url)
@@ -25,6 +27,11 @@ def recommend(movie):
 
     return recommended_movie_names,recommended_movie_posters
 
+movies_file_id = '1Cf2zZ0S_BhtIZFMQe2JOuE0ILHZh5eDR'
+similarity_file_id = '1UZdvcMJVMlWRZFCrelzkzP9QzqFoKU9o'
+
+gdown.download(f'https://drive.google.com/uc?id={movies_file_id}', 'movies.pkl', quiet=False)
+gdown.download(f'https://drive.google.com/uc?id={similarity_file_id}', 'similarity.pkl', quiet=False)
 
 st.header('Movie Recommender System')
 movies = pickle.load(open('movies.pkl','rb'))
@@ -40,23 +47,10 @@ selected_movie = st.selectbox(
 
 if st.button('Generate', type='primary'):
     recommended_movie_names,recommended_movie_posters = recommend(selected_movie)
-    col1, col2, col3, col4, col5 = st.columns(5)
-    with col1:
-        st.text(recommended_movie_names[0])
-        st.image(recommended_movie_posters[0])
-    with col2:
-        st.text(recommended_movie_names[1])
-        st.image(recommended_movie_posters[1])
-
-    with col3:
-        st.text(recommended_movie_names[2])
-        st.image(recommended_movie_posters[2])
-    with col4:
-        st.text(recommended_movie_names[3])
-        st.image(recommended_movie_posters[3])
-    with col5:
-        st.text(recommended_movie_names[4])
-        st.image(recommended_movie_posters[4])
+    cols = st.columns(5)
+    for i, col in enumerate(cols):
+        col.text(recommended_movie_names[i])
+        col.image(recommended_movie_posters[i])
 
 
 
