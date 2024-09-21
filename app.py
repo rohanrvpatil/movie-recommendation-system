@@ -27,8 +27,8 @@ def recommend(movie):
 
     return recommended_movie_names,recommended_movie_posters
 
-movies_file_id = '1Cf2zZ0S_BhtIZFMQe2JOuE0ILHZh5eDR'
-similarity_file_id = '1UZdvcMJVMlWRZFCrelzkzP9QzqFoKU9o'
+movies_file_id = st.secrets["gdrive"]["movies_file_id"]
+similarity_file_id = st.secrets["gdrive"]["similarity_file_id"]
 
 gdown.download(f'https://drive.google.com/uc?id={movies_file_id}', 'movies.pkl', quiet=False)
 gdown.download(f'https://drive.google.com/uc?id={similarity_file_id}', 'similarity.pkl', quiet=False)
