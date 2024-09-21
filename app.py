@@ -1,10 +1,8 @@
+import os
 import pickle
-
 import pandas as pd
 import streamlit as st
 import requests
-
-import os
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=5f1896dc15cb5039314227a544a51562&language=en-US".format(movie_id)
@@ -25,11 +23,11 @@ def recommend(movie):
         recommended_movie_posters.append(fetch_poster(movie_id))
         recommended_movie_names.append(movies.iloc[i[0]].title)
 
-    return recommended_movie_names,recommended_movie_posters
+    return recommended_movie_names, recommended_movie_posters
 
+# Accessing secrets
 movies_file_id = st.secrets["gdrive"]["movies_file_id"]
 similarity_file_id = st.secrets["gdrive"]["similarity_file_id"]
-
 
 def download_file_from_google_drive(file_id, destination):
     url = f"https://drive.google.com/uc?export=download&id={file_id}"
@@ -44,6 +42,15 @@ def download_file_from_google_drive(file_id, destination):
         st.error(f"Error downloading {destination}: {e}")
         st.stop()
 
+def is_valid_pickle_file(filepath):
+    try:
+        with open(filepath, 'rb') as f:
+            pickle.load(f)
+        return True
+    except Exception as e:
+        st.error(f"Error validating pickle file {filepath}: {e}")
+        return False
+
 # Check if files already exist locally
 if not os.path.exists('movies.pkl'):
     download_file_from_google_drive(movies_file_id, 'movies.pkl')
@@ -51,11 +58,24 @@ if not os.path.exists('movies.pkl'):
 if not os.path.exists('similarity.pkl'):
     download_file_from_google_drive(similarity_file_id, 'similarity.pkl')
 
-st.header('Movie Recommender System')
-movies = pickle.load(open('movies.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
+# Verify the downloaded files
+if not is_valid_pickle_file('movies.pkl'):
+    st.error("The downloaded movies.pkl file is not a valid pickle file.")
+    st.stop()
 
-movies=pd.DataFrame(movies)
+if not is_valid_pickle_file('similarity.pkl'):
+    st.error("The downloaded similarity.pkl file is not a valid pickle file.")
+    st.stop()
+
+st.header('Movie Recommender System')
+try:
+    movies = pickle.load(open('movies.pkl', 'rb'))
+    similarity = pickle.load(open('similarity.pkl', 'rb'))
+except Exception as e:
+    st.error(f"Error loading pickle files: {e}")
+    st.stop()
+
+movies = pd.DataFrame(movies)
 
 movie_list = movies['title'].values
 selected_movie = st.selectbox(
@@ -64,13 +84,8 @@ selected_movie = st.selectbox(
 )
 
 if st.button('Generate', type='primary'):
-    recommended_movie_names,recommended_movie_posters = recommend(selected_movie)
+    recommended_movie_names, recommended_movie_posters = recommend(selected_movie)
     cols = st.columns(5)
     for i, col in enumerate(cols):
         col.text(recommended_movie_names[i])
         col.image(recommended_movie_posters[i])
-
-
-
-
-
