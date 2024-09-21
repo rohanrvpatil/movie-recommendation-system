@@ -4,6 +4,7 @@ import pandas as pd
 import streamlit as st
 import requests
 
+import os
 import gdown
 
 def fetch_poster(movie_id):
@@ -30,8 +31,21 @@ def recommend(movie):
 movies_file_id = st.secrets["gdrive"]["movies_file_id"]
 similarity_file_id = st.secrets["gdrive"]["similarity_file_id"]
 
-gdown.download(f'https://drive.google.com/uc?id={movies_file_id}', 'movies.pkl', quiet=False)
-gdown.download(f'https://drive.google.com/uc?id={similarity_file_id}', 'similarity.pkl', quiet=False)
+
+def download_file_from_google_drive(file_id, destination):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    try:
+        gdown.download(url, destination, quiet=False)
+    except Exception as e:
+        st.error(f"Error downloading {destination}: {e}")
+        st.stop()
+
+# Check if files already exist locally
+if not os.path.exists('movies.pkl'):
+    download_file_from_google_drive(movies_file_id, 'movies.pkl')
+
+if not os.path.exists('similarity.pkl'):
+    download_file_from_google_drive(similarity_file_id, 'similarity.pkl')
 
 st.header('Movie Recommender System')
 movies = pickle.load(open('movies.pkl','rb'))
