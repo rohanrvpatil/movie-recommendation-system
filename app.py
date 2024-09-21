@@ -5,7 +5,6 @@ import streamlit as st
 import requests
 
 import os
-import gdown
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=5f1896dc15cb5039314227a544a51562&language=en-US".format(movie_id)
@@ -33,9 +32,14 @@ similarity_file_id = st.secrets["gdrive"]["similarity_file_id"]
 
 
 def download_file_from_google_drive(file_id, destination):
-    url = f"https://drive.google.com/uc?id={file_id}"
+    url = f"https://drive.google.com/uc?export=download&id={file_id}"
     try:
-        gdown.download(url, destination, quiet=False)
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        with open(destination, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
     except Exception as e:
         st.error(f"Error downloading {destination}: {e}")
         st.stop()
