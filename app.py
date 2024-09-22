@@ -5,13 +5,15 @@ import pandas as pd
 import streamlit as st
 import requests
 
+#test
+
 # package imports
 from pkl_management.pkl_management import reassemble_file
 
 
 def fetch_poster(movie_id):
     tmdb_api_key = st.secrets["general"]["tmdb_api_key"]
-    
+
     url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id, tmdb_api_key)
     data = requests.get(url)
     data = data.json()
