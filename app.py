@@ -4,6 +4,8 @@ import pandas as pd
 import streamlit as st
 import requests
 
+from pkl_management import reassemble_file
+
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=5f1896dc15cb5039314227a544a51562&language=en-US".format(movie_id)
     data = requests.get(url)
@@ -25,22 +27,7 @@ def recommend(movie):
 
     return recommended_movie_names, recommended_movie_posters
 
-# Accessing secrets
-movies_file_id = st.secrets["gdrive"]["movies_file_id"]
-similarity_file_id = st.secrets["gdrive"]["similarity_file_id"]
 
-def download_file_from_google_drive(file_id, destination):
-    url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    try:
-        response = requests.get(url, stream=True)
-        response.raise_for_status()
-        with open(destination, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
-    except Exception as e:
-        st.error(f"Error downloading {destination}: {e}")
-        st.stop()
 
 def is_valid_pickle_file(filepath):
     try:
@@ -51,29 +38,23 @@ def is_valid_pickle_file(filepath):
         st.error(f"Error validating pickle file {filepath}: {e}")
         return False
 
-# Check if files already exist locally
-if not os.path.exists('movies.pkl'):
-    download_file_from_google_drive(movies_file_id, 'movies.pkl')
-
-if not os.path.exists('similarity.pkl'):
-    download_file_from_google_drive(similarity_file_id, 'similarity.pkl')
-
-# Verify the downloaded files
-if not is_valid_pickle_file('movies.pkl'):
-    st.error("The downloaded movies.pkl file is not a valid pickle file.")
-    st.stop()
-
-if not is_valid_pickle_file('similarity.pkl'):
-    st.error("The downloaded similarity.pkl file is not a valid pickle file.")
-    st.stop()
 
 st.header('Movie Recommender System')
-try:
-    movies = pickle.load(open('movies.pkl', 'rb'))
-    similarity = pickle.load(open('similarity.pkl', 'rb'))
-except Exception as e:
-    st.error(f"Error loading pickle files: {e}")
+
+#Loading pickle files
+movies = pickle.load(open('movies.pkl', 'rb'))
+reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
+
+if not is_valid_pickle_file('similarity_reassembled.pkl'):
+    st.error("The reassembled similarity.pkl file is not a valid pickle file.")
     st.stop()
+
+try:
+    similarity = pickle.load(open('similarity_reassembled.pkl', 'rb'))
+except Exception as e:
+    st.error(f"Error loading reassembled similarity.pkl file: {e}")
+    st.stop()
+
 
 movies = pd.DataFrame(movies)
 
