@@ -1,18 +1,10 @@
 
-# virtual environment
-.venv
-
 # .pkl files
 pkl_files/similarity.pkl
 
 # folders
 datasets
 
-
-# python files
-pkl_split.py
-
-.devcontainer
 
 # .env file
 .env
