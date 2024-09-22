@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 import requests
 
-from pkl_management import reassemble_file
+from pkl_management.pkl_management import reassemble_file
 
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=5f1896dc15cb5039314227a544a51562&language=en-US".format(movie_id)
@@ -28,16 +28,16 @@ def recommend(movie):
 st.header('Movie Recommender System')
 
 # Loading pickle files
-movies = pickle.load(open('movies.pkl', 'rb'))
+movies = pickle.load(open('./pkl_files/movies.pkl', 'rb'))
 
 # Reassemble the similarity.pkl file if it doesn't already exist
-if not os.path.exists('similarity_reassembled.pkl'):
-    reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
+if not os.path.exists('./pkl_files/similarity_reassembled.pkl'):
+    reassemble_file('./pkl_files/similarity.pkl', './pkl_files/similarity_reassembled.pkl')
 
 
 
 try:
-    similarity = pickle.load(open('similarity_reassembled.pkl', 'rb'))
+    similarity = pickle.load(open('./pkl_files/similarity_reassembled.pkl', 'rb'))
 except Exception as e:
     st.error(f"Error loading reassembled similarity.pkl file: {e}")
     st.stop()
