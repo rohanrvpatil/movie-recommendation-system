@@ -8,3 +8,6 @@ datasets
 
 # .env file
 .env
+
+# git-filter-repo
+git-filter-repo
