@@ -23,4 +23,4 @@ def reassemble_file(file_path, output_path):
                 output_file.write(chunk_file.read())
             chunk_number += 1
 
-split_file('similarity.pkl')
+#split_file('similarity.pkl')

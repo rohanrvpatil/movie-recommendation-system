@@ -27,34 +27,21 @@ def recommend(movie):
 
     return recommended_movie_names, recommended_movie_posters
 
-
-
-def is_valid_pickle_file(filepath):
-    try:
-        with open(filepath, 'rb') as f:
-            pickle.load(f)
-        return True
-    except Exception as e:
-        st.error(f"Error validating pickle file {filepath}: {e}")
-        return False
-
-
 st.header('Movie Recommender System')
 
-#Loading pickle files
+# Loading pickle files
 movies = pickle.load(open('movies.pkl', 'rb'))
-reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
 
-if not is_valid_pickle_file('similarity_reassembled.pkl'):
-    st.error("The reassembled similarity.pkl file is not a valid pickle file.")
-    st.stop()
+# Reassemble the similarity.pkl file if it doesn't already exist
+if not os.path.exists('similarity_reassembled.pkl'):
+    reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
 
+# Load the reassembled file
 try:
     similarity = pickle.load(open('similarity_reassembled.pkl', 'rb'))
 except Exception as e:
     st.error(f"Error loading reassembled similarity.pkl file: {e}")
     st.stop()
-
 
 movies = pd.DataFrame(movies)
 
