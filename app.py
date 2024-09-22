@@ -20,11 +20,9 @@ def recommend(movie):
     recommended_movie_names = []
     recommended_movie_posters = []
     for i in distances[1:6]:
-        # fetch the movie poster
         movie_id = movies.iloc[i[0]].id
         recommended_movie_posters.append(fetch_poster(movie_id))
         recommended_movie_names.append(movies.iloc[i[0]].title)
-
     return recommended_movie_names, recommended_movie_posters
 
 st.header('Movie Recommender System')
@@ -35,6 +33,14 @@ movies = pickle.load(open('movies.pkl', 'rb'))
 # Reassemble the similarity.pkl file if it doesn't already exist
 if not os.path.exists('similarity_reassembled.pkl'):
     reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
+
+# Verify the reassembled file size
+expected_size = sum(os.path.getsize(f'similarity.pkl.part{n}') for n in range(4))  # Adjust the range as needed
+actual_size = os.path.getsize('similarity_reassembled.pkl')
+
+if expected_size != actual_size:
+    st.error(f"Reassembled file size mismatch: expected {expected_size} bytes, got {actual_size} bytes")
+    st.stop()
 
 # Load the reassembled file
 try:
