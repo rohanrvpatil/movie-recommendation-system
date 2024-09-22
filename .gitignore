@@ -1,5 +1,13 @@
+
+# virtual environment
 .venv
 
-
+# .pkl files
 similarity.pkl
+
+# folders
 datasets
+
+# python files
+pkl_split.py
+
