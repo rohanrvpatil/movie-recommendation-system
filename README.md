@@ -25,14 +25,35 @@ If the above link doesn't work, then please follow the instructions given below 
 6) App was deployed to Streamlit Community Cloud
 
 ### Instructions to run project locally:
-1) git clone https://github.com/rohanrvpatil/movie-recommendation-system.git
-2) pip install -r requirements.txt
-3) Get a TMDB API key from [here](https://developer.themoviedb.org/reference/intro/authentication) and store it in .streamlit/secrets.toml
-3) import streamlit as st
-tmdb_api_key = st.secrets["general"]["tmdb_api_key"]
-# use the api key to fetch data from TMDB
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/rohanrvpatil/movie-recommendation-system.git
+    ```
 
-4) streamlit run app.py
+2. Install the required packages:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+3. Get a TMDB API key from [here](https://developer.themoviedb.org/reference/intro/authentication) and store it in `.streamlit/secrets.toml`:
+    ```toml
+    # .streamlit/secrets.toml
+    [general]
+    tmdb_api_key = "your_tmdb_api_key"
+    ```
+
+4. Access the API key in your `app.py`:
+    ```python
+    import streamlit as st
+
+    tmdb_api_key = st.secrets["general"]["tmdb_api_key"]
+    # Use the API key to fetch data from TMDB
+    ```
+
+5. Run the Streamlit app:
+    ```sh
+    streamlit run app.py
+    ```
 
 
 > [!TIP]
