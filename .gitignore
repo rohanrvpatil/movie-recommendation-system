@@ -5,9 +5,8 @@ pkl_files/similarity.pkl
 # folders
 datasets
 
-
-# .env file
-.env
+# secrets
+secrets.toml
 
 # git-filter-repo
 git-filter-repo
