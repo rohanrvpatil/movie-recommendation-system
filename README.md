@@ -4,7 +4,7 @@ This project is a content based recommender system which calculates the similari
 
 ![Screenshot 2024-03-17 221235](https://github.com/rohanrvpatil/movie-recommendation-system/assets/42604817/8990ac6a-d87e-4b2a-948f-f0474ba3a53b)
 
-Project link - [Heroku project](https://mrs-d446795857c8.herokuapp.com/)
+Project link - [Streamlit Cloud project](https://movie-recommender-system-rohanrvpatil.streamlit.app/)
 
 If the above link doesn't work, then please follow the instructions given below from here to setup the project in your system.
 
@@ -22,15 +22,18 @@ If the above link doesn't work, then please follow the instructions given below 
 3) A profile was created on [TMDB](https://www.themoviedb.org/?language=en-US) to generate an API key to fetch posters of recommended movies
 4) app.py was designed to fetch posters from [TMDB](https://www.themoviedb.org/?language=en-US) and generate movie names
 5) Movie names and posters were displayed
-6) App was deployed to Heroku using this [blog](https://towardsdatascience.com/a-quick-tutorial-on-how-to-deploy-your-streamlit-app-to-heroku-874e1250dadd)
+6) App was deployed to Streamlit Community Cloud
 
-### Instructions to set up project (in brief):
-1) Download the [dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)
-2) Run the .ipynb file to generate movies.pkl and similarity.pkl
-3) Create a new project with a virtual environment in PyCharm
-4) Copy the .pkl files to the project folder
-5) Run the app locally using "streamlit run app.py"
-6) Deploy on Heroku by following the steps in this [blog](https://towardsdatascience.com/a-quick-tutorial-on-how-to-deploy-your-streamlit-app-to-heroku-874e1250dadd)
+### Instructions to run project locally:
+1) git clone https://github.com/rohanrvpatil/movie-recommendation-system.git
+2) pip install -r requirements.txt
+3) Get a TMDB API key from [here](https://developer.themoviedb.org/reference/intro/authentication) and store it in .streamlit/secrets.toml
+3) import streamlit as st
+tmdb_api_key = st.secrets["general"]["tmdb_api_key"]
+# use the api key to fetch data from TMDB
+
+4) streamlit run app.py
+
 
 > [!TIP]
 > Use VPN if the movie recommender system is not working. API requests to TMDB from certain countries don't work
@@ -39,5 +42,4 @@ If the above link doesn't work, then please follow the instructions given below 
 ### Resources:
 1) [TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata)
 2) [API key creation](https://www.themoviedb.org/?language=en-US)
-3) [Heroku deployment](https://towardsdatascience.com/a-quick-tutorial-on-how-to-deploy-your-streamlit-app-to-heroku-874e1250dadd)
-4) [YouTube link of project](https://www.youtube.com/watch?v=1xtrIEwY_zY&t=2s)
+3) [YouTube link of project](https://www.youtube.com/watch?v=1xtrIEwY_zY&t=2s)

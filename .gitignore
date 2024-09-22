@@ -6,7 +6,7 @@ pkl_files/similarity.pkl
 datasets
 
 # secrets
-secrets.toml
+.streamlit
 
 # git-filter-repo
 git-filter-repo
