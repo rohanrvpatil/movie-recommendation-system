@@ -13,3 +13,6 @@ datasets
 pkl_split.py
 
 .devcontainer
+
+# .env file
+.env
