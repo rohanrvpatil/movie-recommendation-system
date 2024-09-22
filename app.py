@@ -34,15 +34,8 @@ movies = pickle.load(open('movies.pkl', 'rb'))
 if not os.path.exists('similarity_reassembled.pkl'):
     reassemble_file('similarity.pkl', 'similarity_reassembled.pkl')
 
-# Verify the reassembled file size
-expected_size = sum(os.path.getsize(f'similarity.pkl.part{n}') for n in range(4))  # Adjust the range as needed
-actual_size = os.path.getsize('similarity_reassembled.pkl')
 
-if expected_size != actual_size:
-    st.error(f"Reassembled file size mismatch: expected {expected_size} bytes, got {actual_size} bytes")
-    st.stop()
 
-# Load the reassembled file
 try:
     similarity = pickle.load(open('similarity_reassembled.pkl', 'rb'))
 except Exception as e:
